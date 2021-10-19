@@ -11,8 +11,12 @@ def check_customer_payments(txt_file):
         line = line.rstrip()
         words = line.split('|')
 
-        # define the contents in each line from the report 
-        customer_name = words[1] 
+        # determine names customers
+        names = words[1] 
+
+        #split the first and last names
+        customer_name = names.split(' ')
+        first_name = customer_name[0]
 
         # number of melons each customer purchased
         melon_count = float(words[2])
@@ -27,10 +31,13 @@ def check_customer_payments(txt_file):
 
         # check if customer underpaid given the correct amount
         if customer_paid != expected_amount:
-            print(f"{customer_name} paid ${customer_paid:.2F},",
+            print(f"{names} paid ${customer_paid:.2F},",
           f"expected ${expected_amount:.2F}")
-        
 
-
+            if customer_paid < expected_amount:
+                print(f"{first_name} underpaid for their melon purchase.")
+            
+            elif customer_paid > expected_amount:
+                print(f"{first_name} overpaid for their melon purchase.")
 
 check_customer_payments("customer-orders.txt")
